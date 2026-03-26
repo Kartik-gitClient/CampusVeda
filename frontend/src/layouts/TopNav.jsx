@@ -59,7 +59,7 @@ export function TopNav() {
           >
             <Bell className="h-5 w-5" />
             {unread.length > 0 && (
-              <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-primary ring-2 ring-white dark:ring-gray-900" />
+              <span className="absolute top-1.5 right-1.5 block h-2 w-2 rounded-full bg-black dark:bg-white ring-2 ring-white dark:ring-gray-900" />
             )}
           </button>
 
@@ -72,7 +72,7 @@ export function TopNav() {
                 className="absolute right-0 mt-2 w-80 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4 shadow-xl z-50"
               >
                 <h3 className="text-sm font-semibold text-primary dark:text-white mb-3">
-                  Notifications {unread.length > 0 && <span className="ml-1 text-xs bg-black dark:bg-primary text-white px-1.5 py-0.5 rounded-full">{unread.length}</span>}
+                  Notifications {unread.length > 0 && <span className="ml-1 text-xs bg-black dark:bg-gray-700 text-white px-1.5 py-0.5 rounded-full">{unread.length}</span>}
                 </h3>
                 <div className="space-y-2 max-h-72 overflow-y-auto">
                   {notifications.length === 0 ? (

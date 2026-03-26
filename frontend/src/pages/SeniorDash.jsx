@@ -36,7 +36,7 @@ export function SeniorDash() {
               className={cn(
                 "px-6 rounded-xl text-sm font-bold transition-all duration-300",
                 activeTab === tab.id 
-                  ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                  ? "bg-primary text-white shadow-md shadow-black/10 dark:shadow-white/10" 
                   : "text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white"
               )}
             >

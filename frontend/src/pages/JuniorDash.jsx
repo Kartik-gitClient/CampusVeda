@@ -30,9 +30,9 @@ export function JuniorDash() {
               onClick={() => setActiveTab(tab)}
               className={cn(
                 "px-6 rounded-xl text-sm font-bold transition-all duration-300 capitalize",
-                activeTab === tab 
-                  ? "bg-primary text-white shadow-lg shadow-primary/20" 
-                  : "text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white"
+                  activeTab === tab 
+                    ? "bg-primary text-white shadow-md shadow-black/10 dark:shadow-white/10 scale-105" 
+                    : "text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white"
               )}
             >
               {tab}

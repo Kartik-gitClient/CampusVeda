@@ -7,10 +7,10 @@ import { Building2, Users, MapPin, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const STATUS_CONFIG = {
-  Available: { color: 'bg-emerald-500', text: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-500/10', border: 'border-emerald-100 dark:border-emerald-500/20', icon: 'success' },
-  'In Use': { color: 'bg-rose-500', text: 'text-rose-700 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-500/10', border: 'border-rose-100 dark:border-rose-500/20', icon: 'danger' },
-  Maintenance: { color: 'bg-amber-500', text: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-500/10', border: 'border-amber-100 dark:border-amber-500/20', icon: 'warning' },
-  'Unavailable': { color: 'bg-slate-500', text: 'text-slate-700 dark:text-slate-400', bg: 'bg-slate-50 dark:bg-slate-500/10', border: 'border-slate-100 dark:border-slate-500/20', icon: 'default' },
+  Available: { color: 'bg-gray-200 dark:bg-gray-700', text: 'text-gray-600 dark:text-gray-400', bg: 'bg-gray-50 dark:bg-gray-800/10', border: 'border-gray-100 dark:border-gray-800', icon: 'default' },
+  'In Use': { color: 'bg-black dark:bg-white', text: 'text-black dark:text-white', bg: 'bg-gray-100 dark:bg-white/5', border: 'border-black dark:border-white', icon: 'primary' },
+  Maintenance: { color: 'bg-gray-400', text: 'text-gray-500', bg: 'bg-gray-50', border: 'border-gray-200', icon: 'warning' },
+  'Unavailable': { color: 'bg-gray-300', text: 'text-gray-400', bg: 'bg-gray-50', border: 'border-gray-100', icon: 'default' },
 };
 
 export function PremiseDashboard() {
@@ -80,7 +80,7 @@ export function PremiseDashboard() {
                   <motion.div
                     key={room._id}
                     whileHover={{ y: -8, scale: 1.02 }}
-                    className={`group relative overflow-hidden bg-white dark:bg-gray-800 rounded-3xl border ${config.border} p-6 cursor-pointer hover:shadow-2xl hover:shadow-primary/10 dark:hover:shadow-white/5 transition-all duration-300`}
+                    className={`group relative overflow-hidden bg-white dark:bg-gray-900 rounded-3xl border ${config.border} p-6 cursor-pointer hover:shadow-2xl hover:shadow-black/5 dark:hover:shadow-white/5 transition-all duration-300`}
                     onClick={() => handleRoomClick(room)}
                   >
                     <div className={`absolute top-0 right-0 w-24 h-24 ${config.bg} rounded-bl-[4rem] -mr-8 -mt-8 opacity-50 group-hover:scale-110 transition-transform`} />

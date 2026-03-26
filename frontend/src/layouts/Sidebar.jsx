@@ -64,10 +64,10 @@ export function Sidebar() {
                 end={item.path.split('/').length === 2}
                 className={({ isActive }) =>
                   cn(
-                    'group flex items-center rounded-2xl px-4 py-3.5 text-sm font-semibold transition-all duration-300',
+                    'group flex items-center rounded-2xl px-4 py-3.5 text-sm font-bold transition-all duration-300',
                     isActive
-                      ? 'bg-primary text-white shadow-lg shadow-primary/20 translate-x-1'
-                      : 'text-gray-500 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-white/5 hover:text-primary dark:hover:text-white'
+                      ? 'bg-primary text-white shadow-md shadow-black/5 dark:shadow-white/5 translate-x-1'
+                      : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-primary dark:hover:text-white'
                   )
                 }
               >
@@ -78,8 +78,8 @@ export function Sidebar() {
           })}
         </nav>
         {user && (
-          <div className="px-6 py-6 bg-white/30 dark:bg-black/20 border-t border-white/10">
-            <p className="text-[10px] font-bold text-primary/50 dark:text-white/40 uppercase tracking-widest mb-1">{user.role}</p>
+          <div className="px-6 py-6 bg-gray-50/50 dark:bg-black/20 border-t border-border">
+            <p className="text-[10px] font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">{user.role}</p>
             <p className="text-sm font-bold text-primary dark:text-white truncate">{user.name}</p>
             {user.department && (
               <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user.department}</p>

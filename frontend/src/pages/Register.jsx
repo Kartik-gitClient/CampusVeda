@@ -58,8 +58,8 @@ export function Register() {
   return (
     <div className="flex min-h-screen items-center justify-center mesh-gradient px-4 py-16 overflow-hidden relative">
       {/* Background Decorative Blobs */}
-      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-secondary/10 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-black/5 dark:bg-white/5 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-gray-200/10 dark:bg-white/5 rounded-full blur-[120px] animate-pulse" />
 
       <div className="w-full max-w-xl relative z-10">
         <motion.div
@@ -140,7 +140,7 @@ export function Register() {
 
             <p className="mt-8 text-center text-sm text-gray-500">
               Already have an account?{' '}
-              <Link to="/login" className="font-bold text-primary hover:text-secondary transition-colors underline-offset-4 hover:underline">
+              <Link to="/login" className="font-bold text-black dark:text-white hover:text-gray-600 transition-colors underline-offset-4 hover:underline">
                 Sign in here
               </Link>
             </p>
