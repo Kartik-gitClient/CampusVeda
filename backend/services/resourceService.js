@@ -23,7 +23,12 @@ export const updateResource = async (id, data, user) => {
   if (!resource) throw new ErrorResponse('Resource not found', 404);
   
   if (user.role === 'hod' && resource.department !== user.department) {
-    throw new ErrorResponse('Not authorized to update resources from other departments', 403);
+    const updateFields = Object.keys(data);
+    const isOnlyStatus = updateFields.length === 1 && updateFields[0] === 'status';
+    
+    if (resource.type !== 'Room' || !isOnlyStatus) {
+      throw new ErrorResponse('HODs can only update the status of rooms in other departments', 403);
+    }
   }
 
   Object.assign(resource, data);

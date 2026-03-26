@@ -12,8 +12,11 @@ import { Input } from '../Input';
 
 const STATUS_VARIANT = { Available: 'success', 'In Use': 'warning', Maintenance: 'danger', Unavailable: 'danger' };
 
+import { useSelector } from 'react-redux';
+
 export function ResourceManagement() {
   const queryClient = useQueryClient();
+  const { user } = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState(null);
 
@@ -58,8 +61,10 @@ export function ResourceManagement() {
     setShowModal(true);
   };
 
+  const isCrossDept = editing && user?.role === 'hod' && editing.department !== user.department;
+
   return (
-    <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-6">
+    <div className="glass rounded-[2rem] border-white/10 p-8">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-bold text-primary">Resource Management</h2>
@@ -102,29 +107,61 @@ export function ResourceManagement() {
         </Table>
       )}
 
-      <Modal isOpen={showModal} onClose={() => { setShowModal(false); setEditing(null); }} title={editing ? 'Edit Resource' : 'Add New Resource'}>
-        <form onSubmit={handleSubmit(save)} className="space-y-4">
-          <Input label="Name" placeholder="e.g. Lab 101" {...register('name', { required: true })} />
+      <Modal 
+        isOpen={showModal} 
+        onClose={() => { setShowModal(false); setEditing(null); }} 
+        title={isCrossDept ? 'Update Room Status (Cross-Dept)' : (editing ? 'Edit Resource' : 'Add New Resource')}
+      >
+        <form onSubmit={handleSubmit(save)} className="space-y-6">
+          {isCrossDept && (
+            <div className="p-4 bg-primary/5 rounded-2xl mb-4">
+              <p className="text-xs text-primary font-medium">As HOD, you can only update the availability status for rooms in other departments.</p>
+            </div>
+          )}
+          <Input 
+            label="Name" 
+            placeholder="e.g. Lab 101" 
+            {...register('name', { required: true })} 
+            disabled={isCrossDept}
+          />
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Type</label>
-            <select {...register('type', { required: true })} className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+            <label className="block text-sm font-medium text-primary/70 dark:text-white/60 mb-2">Type</label>
+            <select 
+              {...register('type', { required: true })} 
+              disabled={isCrossDept}
+              className="flex h-12 w-full rounded-2xl border border-gray-200/50 dark:border-white/10 bg-white/50 dark:bg-gray-900/50 px-4 py-2 text-sm text-primary dark:text-white backdrop-blur-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-50"
+            >
               <option value="Room">Room</option>
               <option value="Equipment">Equipment</option>
               <option value="Staff">Staff</option>
             </select>
           </div>
-          <Input label="Department" placeholder="e.g. Computer Science" {...register('department', { required: true })} />
-          <Input label="Capacity" type="number" placeholder="0 for equipment/staff" {...register('capacity')} />
+          <Input 
+            label="Department" 
+            placeholder="e.g. Computer Science" 
+            {...register('department', { required: true })} 
+            disabled={isCrossDept}
+          />
+          <Input 
+            label="Capacity" 
+            type="number" 
+            placeholder="0" 
+            {...register('capacity')} 
+            disabled={isCrossDept}
+          />
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-            <select {...register('status')} className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary">
+            <label className="block text-sm font-medium text-primary/70 dark:text-white/60 mb-2">Status</label>
+            <select 
+              {...register('status')} 
+              className="flex h-12 w-full rounded-2xl border border-gray-200/50 dark:border-white/10 bg-white/50 dark:bg-gray-900/50 px-4 py-2 text-sm text-primary dark:text-white backdrop-blur-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary"
+            >
               <option value="Available">Available</option>
               <option value="In Use">In Use</option>
               <option value="Maintenance">Maintenance</option>
               <option value="Unavailable">Unavailable</option>
             </select>
           </div>
-          <div className="flex justify-end gap-3 pt-2">
+          <div className="flex justify-end gap-3 pt-4">
             <Button type="button" variant="ghost" onClick={() => setShowModal(false)}>Cancel</Button>
             <Button type="submit" isLoading={isPending}>{editing ? 'Save Changes' : 'Create Resource'}</Button>
           </div>
