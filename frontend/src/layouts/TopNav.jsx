@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getNotifications, markRead } from '../services/notificationApi';
 import { useState } from 'react';
+import logo from '../assets/logo.png';
 
 export function TopNav() {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ export function TopNav() {
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-6 transition-colors duration-300">
+      <div className="flex items-center md:hidden">
+        <img src={logo} alt="CampusVeda" className="h-8 w-8 object-contain" />
+      </div>
       <div className="flex flex-1 items-center justify-end space-x-2 md:space-x-4">
         
         {/* Theme Toggle */}

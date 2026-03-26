@@ -12,6 +12,7 @@ import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/Card';
 import { api } from '../services/api';
+import logo from '../assets/logo.png';
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -62,10 +63,10 @@ export function Register() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 flex flex-col items-center text-center"
         >
-          <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">
-            <Building2 size={32} />
+          <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-white dark:bg-gray-800 p-2 shadow-soft">
+            <img src={logo} alt="CampusVeda" className="h-full w-full object-contain" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-primary">(CAMPUSVEDA ~BY PRITHVEDA)</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-primary dark:text-white">CampusVeda</h1>
           <p className="mt-2 text-sm text-gray-500">Smart Campus Operation Platform</p>
         </motion.div>
 

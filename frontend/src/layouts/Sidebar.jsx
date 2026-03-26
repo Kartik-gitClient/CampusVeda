@@ -11,6 +11,7 @@ import {
   ClipboardList,
 } from 'lucide-react';
 import { cn } from '../utils/cn';
+import logo from '../assets/logo.png';
 
 // Roles match backend schema: 'junior' | 'senior' | 'hod'
 const getNavItems = (role) => {
@@ -49,8 +50,8 @@ export function Sidebar() {
   return (
     <aside className="w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 min-h-screen flex flex-col transition-colors duration-300">
       <div className="flex h-16 items-center px-6 border-b border-gray-200 dark:border-gray-800">
-        <Building2 className="mr-2 h-6 w-6 text-primary dark:text-white" />
-        <span className="text-sm font-bold tracking-tight text-primary dark:text-white">(CAMPUSVEDA ~BY PRITHVEDA)</span>
+        <img src={logo} alt="CampusVeda" className="mr-3 h-8 w-8 object-contain" />
+        <span className="text-base font-bold tracking-tight text-primary dark:text-white">CampusVeda</span>
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
         {items.map((item) => {
