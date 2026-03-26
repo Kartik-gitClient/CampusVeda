@@ -65,7 +65,7 @@ export function Login() {
           <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">
             <Building2 size={32} />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-primary">PRITHVEDA</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-primary">(CAMPUSVEDA ~BY PRITHVEDA)</h1>
           <p className="mt-2 text-sm text-gray-500">Smart Campus Operation Platform</p>
         </motion.div>
 

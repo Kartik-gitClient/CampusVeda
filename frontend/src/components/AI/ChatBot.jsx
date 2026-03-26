@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { role: 'ai', content: 'Hi there! I am PRITHVEDA AI. How can I help you with campus resources or conflicts today? ✨' }
+    { role: 'ai', content: 'Hi there! I am (CAMPUSVEDA ~BY PRITHVEDA) AI. How can I help you with campus resources or conflicts today? ✨' }
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +55,7 @@ export function ChatBot() {
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <h3 className="font-bold">PRITHVEDA AI</h3>
+                  <h3 className="font-bold text-xs">(CAMPUSVEDA ~BY PRITHVEDA) AI</h3>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
                     <span className="text-[10px] text-white/70 uppercase tracking-widest font-bold">Online Assistant</span>

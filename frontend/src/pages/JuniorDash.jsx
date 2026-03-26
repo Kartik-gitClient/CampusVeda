@@ -12,31 +12,31 @@ export function JuniorDash() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-primary">Junior Faculty Dashboard</h1>
-          <p className="text-sm text-gray-500">Manage your resource requests and track their status.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-primary dark:text-white transition-colors duration-300">Junior Faculty Dashboard</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Manage your resource requests and track their status.</p>
         </div>
         
-        <div className="flex space-x-2 rounded-xl bg-gray-100 p-1">
+        <div className="flex space-x-2 rounded-xl bg-gray-100 dark:bg-gray-800 p-1 transition-colors duration-300">
           <button
             onClick={() => setActiveTab('overview')}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              activeTab === 'overview' ? 'bg-white text-primary shadow' : 'text-gray-600 hover:text-primary'
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeTab === 'overview' ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
             }`}
           >
             Overview
           </button>
           <button
             onClick={() => setActiveTab('calendar')}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              activeTab === 'calendar' ? 'bg-white text-primary shadow' : 'text-gray-600 hover:text-primary'
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeTab === 'calendar' ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
             }`}
           >
             Calendar
           </button>
           <button
             onClick={() => setActiveTab('new')}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-              activeTab === 'new' ? 'bg-white text-primary shadow' : 'text-gray-600 hover:text-primary'
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
+              activeTab === 'new' ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
             }`}
           >
             New Request
@@ -55,8 +55,8 @@ export function JuniorDash() {
           {activeTab === 'overview' && (
             <div className="space-y-6">
               <Stats />
-              <div className="bg-white rounded-2xl shadow-soft p-6 border border-gray-100">
-                <h3 className="text-lg font-semibold mb-4 text-primary">My Recent Requests</h3>
+              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-soft p-6 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
+                <h3 className="text-lg font-semibold mb-4 text-primary dark:text-white">My Recent Requests</h3>
                 <RequestsTable />
               </div>
             </div>
@@ -69,8 +69,8 @@ export function JuniorDash() {
           )}
 
           {activeTab === 'new' && (
-            <div className="bg-white rounded-2xl shadow-soft p-6 border border-gray-100 max-w-3xl mx-auto">
-              <h3 className="text-lg font-semibold mb-6 text-primary">Create New Resource Request</h3>
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-soft p-6 border border-gray-100 dark:border-gray-800 max-w-3xl mx-auto transition-colors duration-300">
+              <h3 className="text-lg font-semibold mb-6 text-primary dark:text-white">Create New Resource Request</h3>
               <RequestForm onSuccess={() => setActiveTab('overview')} />
             </div>
           )}

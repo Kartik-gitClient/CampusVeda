@@ -13,7 +13,7 @@ export function MainLayout() {
   }
 
   return (
-    <div className="flex h-screen w-full bg-background overflow-hidden relative">
+    <div className="flex h-screen w-full bg-background dark:bg-gray-950 text-primary dark:text-gray-100 overflow-hidden relative transition-colors duration-300">
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <TopNav />

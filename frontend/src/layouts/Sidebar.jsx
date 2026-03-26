@@ -47,10 +47,10 @@ export function Sidebar() {
   const items = user ? getNavItems(user.role) : [];
 
   return (
-    <aside className="w-64 border-r border-gray-200 bg-white min-h-screen flex flex-col">
-      <div className="flex h-16 items-center px-6 border-b border-gray-200">
-        <Building2 className="mr-2 h-6 w-6 text-primary" />
-        <span className="text-lg font-bold tracking-tight text-primary">PRITHVEDA</span>
+    <aside className="w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 min-h-screen flex flex-col transition-colors duration-300">
+      <div className="flex h-16 items-center px-6 border-b border-gray-200 dark:border-gray-800">
+        <Building2 className="mr-2 h-6 w-6 text-primary dark:text-white" />
+        <span className="text-sm font-bold tracking-tight text-primary dark:text-white">(CAMPUSVEDA ~BY PRITHVEDA)</span>
       </div>
       <nav className="flex-1 space-y-1 px-3 py-4">
         {items.map((item) => {
@@ -62,10 +62,10 @@ export function Sidebar() {
               end={item.path.split('/').length === 2} // exact match for root paths
               className={({ isActive }) =>
                 cn(
-                  'group flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-colors',
+                  'group flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
                   isActive
-                    ? 'bg-gray-100 text-primary'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-primary'
+                    ? 'bg-gray-100 dark:bg-gray-800 text-primary dark:text-white translate-x-1'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-primary dark:hover:text-white hover:translate-x-1'
                 )
               }
             >
@@ -76,11 +76,11 @@ export function Sidebar() {
         })}
       </nav>
       {user && (
-        <div className="px-4 py-4 border-t border-gray-200">
-          <p className="text-xs font-medium text-gray-500 uppercase">{user.role}</p>
-          <p className="text-sm font-semibold text-primary truncate">{user.name}</p>
+        <div className="px-4 py-4 border-t border-gray-200 dark:border-gray-800">
+          <p className="text-xs font-medium text-gray-500 dark:text-gray-500 uppercase">{user.role}</p>
+          <p className="text-sm font-semibold text-primary dark:text-white truncate">{user.name}</p>
           {user.department && (
-            <p className="text-xs text-gray-400 truncate">{user.department}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user.department}</p>
           )}
         </div>
       )}

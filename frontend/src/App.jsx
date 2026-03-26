@@ -10,6 +10,7 @@ import { HODDash } from './pages/HODDash';
 import { RoomsView } from './pages/RoomsView';
 import { NewRequestView } from './pages/NewRequestView';
 import { PremiseDashboard } from './pages/PremiseDashboard';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Map backend role → dashboard path
 const ROLE_PATHS = {
@@ -42,72 +43,86 @@ function App() {
   return (
     <>
       <Router>
-        <Routes>
-          {/* Public Routes */}
-          <Route
-            path="/login"
-            element={isAuthenticated && user?.role ? <Navigate to={dashPath} replace /> : <Login />}
-          />
-          <Route
-            path="/register"
-            element={isAuthenticated && user?.role ? <Navigate to={dashPath} replace /> : <Register />}
-          />
-
-          {/* Protected Routes nested under MainLayout */}
-          <Route element={<MainLayout />}>
+        <AnimatePresence mode="wait">
+          <Routes>
+            {/* Public Routes */}
             <Route
-              path="/junior/*"
-              element={
-                <ProtectedRoute allowedRoles={['junior']}>
-                  <JuniorDash />
-                </ProtectedRoute>
-              }
+              path="/login"
+              element={isAuthenticated && user?.role ? <Navigate to={dashPath} replace /> : <Login />}
             />
             <Route
-              path="/senior/*"
-              element={
-                <ProtectedRoute allowedRoles={['senior']}>
-                  <SeniorDash />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/hod/*"
-              element={
-                <ProtectedRoute allowedRoles={['hod']}>
-                  <HODDash />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/rooms"
-              element={
-                <ProtectedRoute>
-                  <RoomsView />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/requests/new"
-              element={
-                <ProtectedRoute>
-                  <NewRequestView />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/building-map"
-              element={
-                <ProtectedRoute>
-                  <PremiseDashboard />
-                </ProtectedRoute>
-              }
+              path="/register"
+              element={isAuthenticated && user?.role ? <Navigate to={dashPath} replace /> : <Register />}
             />
 
-            {/* Root redirect */}
-            <Route path="/" element={<Navigate to={dashPath} replace />} />
-          </Route>
-        </Routes>
+            {/* Protected Routes nested under MainLayout */}
+            <Route element={<MainLayout />}>
+              <Route
+                path="/junior/*"
+                element={
+                  <ProtectedRoute allowedRoles={['junior']}>
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                      <JuniorDash />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/senior/*"
+                element={
+                  <ProtectedRoute allowedRoles={['senior']}>
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                      <SeniorDash />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/hod/*"
+                element={
+                  <ProtectedRoute allowedRoles={['hod']}>
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                      <HODDash />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/rooms"
+                element={
+                  <ProtectedRoute>
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                      <RoomsView />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/requests/new"
+                element={
+                  <ProtectedRoute>
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                      <NewRequestView />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/building-map"
+                element={
+                  <ProtectedRoute>
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
+                      <PremiseDashboard />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* Root redirect */}
+              <Route path="/" element={<Navigate to={dashPath} replace />} />
+            </Route>
+          </Routes>
+        </AnimatePresence>
       </Router>
       <Toaster
         position="top-right"

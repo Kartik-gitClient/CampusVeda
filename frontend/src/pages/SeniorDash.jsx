@@ -17,19 +17,19 @@ export function SeniorDash() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-primary">Senior Faculty Dashboard</h1>
-          <p className="text-sm text-gray-500">Review pending requests, resolve conflicts, and track analytics.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-primary dark:text-white transition-colors duration-300">Senior Faculty Dashboard</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Review pending requests, resolve conflicts, and track analytics.</p>
         </div>
 
-        <div className="flex space-x-1 rounded-xl bg-gray-100 p-1">
+        <div className="flex space-x-1 rounded-xl bg-gray-100 dark:bg-gray-800 p-1 transition-colors duration-300">
           {TABS.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
                 activeTab === tab.id
-                  ? 'bg-white text-primary shadow'
-                  : 'text-gray-600 hover:text-primary'
+                  ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
               }`}
             >
               {tab.label}

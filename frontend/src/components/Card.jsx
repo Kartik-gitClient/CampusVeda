@@ -7,7 +7,7 @@ export function Card({ className, children, ...props }) {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={cn("rounded-2xl bg-white p-6 shadow-soft border border-gray-100", className)} 
+      className={cn("rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-soft border border-gray-100 dark:border-gray-800 transition-colors duration-300", className)} 
       {...props}
     >
       {children}
@@ -20,7 +20,7 @@ export function CardHeader({ className, children, ...props }) {
 }
 
 export function CardTitle({ className, children, ...props }) {
-  return <h3 className={cn("text-xl font-semibold leading-none tracking-tight text-primary", className)} {...props}>{children}</h3>;
+  return <h3 className={cn("text-xl font-semibold leading-none tracking-tight text-primary dark:text-white transition-colors duration-300", className)} {...props}>{children}</h3>;
 }
 
 export function CardContent({ className, children, ...props }) {

@@ -13,10 +13,10 @@ export const Button = React.forwardRef(({
   const baseStyles = "inline-flex items-center justify-center rounded-2xl font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50";
   
   const variants = {
-    primary: "bg-primary text-white hover:bg-secondary",
-    outline: "border-2 border-primary text-primary hover:bg-background",
-    ghost: "text-primary hover:bg-background",
-    danger: "bg-red-600 text-white hover:bg-red-700",
+    primary: "bg-primary dark:bg-white text-white dark:text-primary hover:bg-secondary dark:hover:bg-gray-100",
+    outline: "border-2 border-primary dark:border-white text-primary dark:text-white hover:bg-background dark:hover:bg-white/10",
+    ghost: "text-primary dark:text-white hover:bg-background dark:hover:bg-white/10",
+    danger: "bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600",
   };
 
   const sizes = {

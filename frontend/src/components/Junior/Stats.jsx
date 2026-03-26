@@ -25,15 +25,15 @@ export function Stats() {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {cards.map(({ label, value, icon: Icon, description }) => (
-        <div key={label} className="bg-white rounded-2xl border border-gray-100 shadow-soft p-5">
+        <div key={label} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-soft p-5 transition-all duration-300 hover:shadow-lg dark:hover:shadow-white/5">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-medium text-gray-500">{label}</p>
-            <Icon className="h-5 w-5 text-gray-400" />
+            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{label}</p>
+            <Icon className="h-5 w-5 text-gray-400 dark:text-gray-500" />
           </div>
-          <p className="text-3xl font-bold text-primary">
-            {isLoading ? <span className="animate-pulse text-gray-200">—</span> : value}
+          <p className="text-3xl font-bold text-primary dark:text-white transition-colors duration-300">
+            {isLoading ? <span className="animate-pulse text-gray-200 dark:text-gray-700">—</span> : value}
           </p>
-          <p className="text-xs text-gray-400 mt-1">{description}</p>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{description}</p>
         </div>
       ))}
     </div>
