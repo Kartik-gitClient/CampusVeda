@@ -12,7 +12,10 @@ export const detectConflicts = async (requestId) => {
   // 1. Double Booking Check (Same resource, overlapping dates)
   const overlaps = await Request.find({
     _id: { $ne: requestId },
-    resourceName: request.resourceName,
+    $or: [
+      { resourceId: request.resourceId, resourceId: { $exists: true, $ne: null } },
+      { resourceName: request.resourceName, resourceId: { $exists: false } }
+    ],
     startDate: { $lt: request.endDate },
     endDate: { $gt: request.startDate },
     status: { $in: ['approved', 'submitted', 'checking'] }

@@ -83,6 +83,7 @@ export function RequestForm({ onSuccess }) {
   const onSubmit = (data) => {
     mutate({
       ...data,
+      resourceId: initialState.resourceId,
       capacity: data.capacity ? parseInt(data.capacity) : undefined,
     });
   };

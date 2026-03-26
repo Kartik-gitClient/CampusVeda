@@ -34,7 +34,8 @@ export function PremiseDashboard() {
       state: { 
         resourceName: room.name, 
         type: 'Room',
-        capacity: room.capacity
+        capacity: room.capacity,
+        resourceId: room._id
       } 
     });
   };

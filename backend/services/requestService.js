@@ -1,11 +1,21 @@
 import Request from '../models/Request.js';
+import Resource from '../models/Resource.js';
 import ErrorResponse from '../utils/errorResponse.js';
 import { logAction } from './auditService.js';
 
 export const createRequest = async (requestData, userId) => {
+  // Look up resource to get ID and department
+  const resource = await Resource.findOne({ 
+    name: requestData.resourceName, 
+    type: requestData.type,
+    isActive: true 
+  });
+
   const request = await Request.create({
     ...requestData,
     requester: userId,
+    resourceId: resource?._id,
+    department: resource?.department || 'General',
     history: [{ status: 'submitted', actor: userId, reason: 'Created request' }],
   });
 

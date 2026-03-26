@@ -15,6 +15,13 @@ const RequestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  resourceId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Resource',
+  },
+  department: {
+    type: String,
+  },
   capacity: {
     type: Number,
   },

@@ -24,6 +24,10 @@ export const getPremise = async (req, res, next) => {
 export const updatePremise = async (req, res, next) => {
   try {
     const { totalRooms, seminarHalls, staffRooms, miscRooms, classRooms } = req.body;
+
+    if (totalRooms < (Number(seminarHalls || 0) + Number(staffRooms || 0) + Number(miscRooms || 0) + Number(classRooms || 0))) {
+      throw new ErrorResponse('Total rooms cannot be less than the sum of specialized spaces.', 400);
+    }
     
     let premise = await Premise.findOne().sort({ createdAt: -1 });
     if (!premise) {
