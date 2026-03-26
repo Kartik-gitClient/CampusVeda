@@ -48,43 +48,45 @@ export function Sidebar() {
   const items = user ? getNavItems(user.role) : [];
 
   return (
-    <aside className="w-64 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 min-h-screen flex flex-col transition-colors duration-300">
-      <div className="flex h-16 items-center px-6 border-b border-gray-200 dark:border-gray-800">
-        <img src={logo} alt="CampusVeda" className="mr-3 h-8 w-8 object-contain" />
-        <span className="text-base font-bold tracking-tight text-primary dark:text-white">CampusVeda</span>
-      </div>
-      <nav className="flex-1 space-y-1 px-3 py-4">
-        {items.map((item) => {
-          const Icon = item.icon;
-          return (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              end={item.path.split('/').length === 2} // exact match for root paths
-              className={({ isActive }) =>
-                cn(
-                  'group flex items-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200',
-                  isActive
-                    ? 'bg-gray-100 dark:bg-gray-800 text-primary dark:text-white translate-x-1'
-                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800/50 hover:text-primary dark:hover:text-white hover:translate-x-1'
-                )
-              }
-            >
-              <Icon className="mr-3 h-5 w-5 flex-shrink-0" />
-              {item.name}
-            </NavLink>
-          );
-        })}
-      </nav>
-      {user && (
-        <div className="px-4 py-4 border-t border-gray-200 dark:border-gray-800">
-          <p className="text-xs font-medium text-gray-500 dark:text-gray-500 uppercase">{user.role}</p>
-          <p className="text-sm font-semibold text-primary dark:text-white truncate">{user.name}</p>
-          {user.department && (
-            <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user.department}</p>
-          )}
+    <aside className="w-72 p-4 hidden md:flex flex-col h-screen transition-all duration-500">
+      <div className="glass rounded-[2rem] h-full flex flex-col overflow-hidden">
+        <div className="flex h-20 items-center px-8 border-b border-white/10 dark:border-white/5">
+          <img src={logo} alt="CampusVeda" className="mr-3 h-10 w-10 object-contain" />
+          <span className="text-xl font-bold tracking-tight text-primary dark:text-white">CampusVeda</span>
         </div>
-      )}
+        <nav className="flex-1 space-y-2 px-4 py-6 overflow-y-auto">
+          {items.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                end={item.path.split('/').length === 2}
+                className={({ isActive }) =>
+                  cn(
+                    'group flex items-center rounded-2xl px-4 py-3.5 text-sm font-semibold transition-all duration-300',
+                    isActive
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20 translate-x-1'
+                      : 'text-gray-500 dark:text-gray-400 hover:bg-white/50 dark:hover:bg-white/5 hover:text-primary dark:hover:text-white'
+                  )
+                }
+              >
+                <Icon className="mr-3 h-5 w-5 flex-shrink-0" />
+                {item.name}
+              </NavLink>
+            );
+          })}
+        </nav>
+        {user && (
+          <div className="px-6 py-6 bg-white/30 dark:bg-black/20 border-t border-white/10">
+            <p className="text-[10px] font-bold text-primary/50 dark:text-white/40 uppercase tracking-widest mb-1">{user.role}</p>
+            <p className="text-sm font-bold text-primary dark:text-white truncate">{user.name}</p>
+            {user.department && (
+              <p className="text-xs text-gray-400 dark:text-gray-500 truncate">{user.department}</p>
+            )}
+          </div>
+        )}
+      </div>
     </aside>
   );
 }

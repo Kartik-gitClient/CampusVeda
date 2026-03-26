@@ -56,49 +56,58 @@ export function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md">
+    <div className="flex min-h-screen items-center justify-center mesh-gradient px-4 overflow-hidden relative">
+      {/* Background Decorative Blobs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 rounded-full blur-[120px] animate-pulse" />
+
+      <div className="w-full max-w-md relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 flex flex-col items-center text-center"
         >
-          <div className="mb-4 flex h-20 w-20 items-center justify-center rounded-2xl bg-white dark:bg-gray-800 p-2 shadow-soft">
+          <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-[2.5rem] glass p-4 shadow-2xl">
             <img src={logo} alt="CampusVeda" className="h-full w-full object-contain" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-primary dark:text-white">CampusVeda</h1>
-          <p className="mt-2 text-sm text-gray-500">Smart Campus Operation Platform</p>
+          <h1 className="text-4xl font-black tracking-tight text-primary dark:text-white drop-shadow-sm">CampusVeda</h1>
+          <p className="mt-2 text-sm text-gray-500 font-medium">Smart Campus Operation Platform</p>
         </motion.div>
 
-        <Card>
+        <Card className="glass !p-10 border-white/20 dark:border-white/5">
           <CardHeader>
-            <CardTitle className="text-center text-2xl font-bold">Welcome back</CardTitle>
+            <CardTitle className="text-center text-3xl font-bold mb-6">Welcome back</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <Input
-                label="Email"
+                label="Email Address"
                 type="email"
                 placeholder="you@campus.edu"
                 {...register('email')}
                 error={errors.email?.message}
               />
-              <Input
-                label="Password"
-                type="password"
-                placeholder="Min. 6 characters"
-                {...register('password')}
-                error={errors.password?.message}
-              />
-              <Button type="submit" className="w-full mt-4" isLoading={isLoading}>
-                Sign in
+              <div className="space-y-1">
+                <Input
+                  label="Secure Password"
+                  type="password"
+                  placeholder="Min. 6 characters"
+                  {...register('password')}
+                  error={errors.password?.message}
+                />
+                <div className="text-right">
+                  <a href="#" className="text-xs font-semibold text-primary/70 hover:text-primary transition-colors">Forgot password?</a>
+                </div>
+              </div>
+              <Button type="submit" className="w-full h-14 text-lg" isLoading={isLoading}>
+                Sign in to Dashboard
               </Button>
             </form>
 
-            <p className="mt-5 text-center text-sm text-gray-500">
-              Don't have an account?{' '}
-              <Link to="/register" className="font-semibold text-primary hover:underline">
-                Sign up
+            <p className="mt-8 text-center text-sm text-gray-500">
+              New to the platform?{' '}
+              <Link to="/register" className="font-bold text-primary hover:text-secondary transition-colors underline-offset-4 hover:underline">
+                Create an account
               </Link>
             </p>
           </CardContent>

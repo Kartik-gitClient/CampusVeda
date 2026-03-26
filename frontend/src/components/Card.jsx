@@ -5,9 +5,9 @@ import { motion } from 'framer-motion';
 export function Card({ className, children, ...props }) {
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={cn("rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-soft border border-gray-100 dark:border-gray-800 transition-colors duration-300", className)} 
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className={cn("glass card-hover rounded-[2rem] p-8", className)} 
       {...props}
     >
       {children}

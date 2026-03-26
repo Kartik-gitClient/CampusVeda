@@ -5,77 +5,76 @@ import { RequestsTable } from '../components/Junior/RequestsTable';
 import { RequestForm } from '../components/Junior/RequestForm';
 import { DepartmentCalendar } from '../components/Junior/DepartmentCalendar';
 
+import { Card } from '../components/Card';
+
 export function JuniorDash() {
   const [activeTab, setActiveTab] = useState('overview');
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-8 p-2 pb-10"
+    >
+      <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-primary dark:text-white transition-colors duration-300">Junior Faculty Dashboard</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Manage your resource requests and track their status.</p>
+          <h1 className="text-4xl font-black tracking-tight text-primary dark:text-white mb-2">My Dashboard</h1>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">Welcome back! Here's what's happening with your requests.</p>
         </div>
         
-        <div className="flex space-x-2 rounded-xl bg-gray-100 dark:bg-gray-800 p-1 transition-colors duration-300">
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
-              activeTab === 'overview' ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
-            }`}
-          >
-            Overview
-          </button>
-          <button
-            onClick={() => setActiveTab('calendar')}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
-              activeTab === 'calendar' ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
-            }`}
-          >
-            Calendar
-          </button>
-          <button
-            onClick={() => setActiveTab('new')}
-            className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
-              activeTab === 'new' ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
-            }`}
-          >
-            New Request
-          </button>
+        <div className="flex h-12 p-1 glass rounded-2xl">
+          {['overview', 'calendar', 'new'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "px-6 rounded-xl text-sm font-bold transition-all duration-300 capitalize",
+                activeTab === tab 
+                  ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                  : "text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white"
+              )}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
       </div>
 
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0, scale: 0.98, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.98, y: -10 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           {activeTab === 'overview' && (
-            <div className="space-y-6">
+            <div className="space-y-8">
               <Stats />
-              <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-soft p-6 border border-gray-100 dark:border-gray-800 transition-colors duration-300">
-                <h3 className="text-lg font-semibold mb-4 text-primary dark:text-white">My Recent Requests</h3>
+              <Card className="glass border-white/10">
+                <h3 className="text-xl font-bold mb-6 text-primary dark:text-white flex items-center">
+                  <span className="w-1.5 h-6 bg-primary rounded-full mr-3" />
+                  Recent Activity
+                </h3>
                 <RequestsTable />
-              </div>
+              </Card>
             </div>
           )}
           
           {activeTab === 'calendar' && (
-            <div className="max-w-6xl mx-auto">
+            <Card className="glass border-white/10 p-0 overflow-hidden">
               <DepartmentCalendar />
-            </div>
+            </Card>
           )}
 
           {activeTab === 'new' && (
-            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-soft p-6 border border-gray-100 dark:border-gray-800 max-w-3xl mx-auto transition-colors duration-300">
-              <h3 className="text-lg font-semibold mb-6 text-primary dark:text-white">Create New Resource Request</h3>
+            <Card className="glass border-white/10 max-w-3xl mx-auto !p-10">
+              <h3 className="text-2xl font-black mb-8 text-primary dark:text-white">Create Resource Request</h3>
               <RequestForm onSuccess={() => setActiveTab('overview')} />
-            </div>
+            </Card>
           )}
         </motion.div>
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

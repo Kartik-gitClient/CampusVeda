@@ -32,11 +32,12 @@ export function TopNav() {
   const unread = notifications.filter(n => !n.isRead);
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 px-6 transition-colors duration-300">
-      <div className="flex items-center md:hidden">
-        <img src={logo} alt="CampusVeda" className="h-8 w-8 object-contain" />
-      </div>
-      <div className="flex flex-1 items-center justify-end space-x-2 md:space-x-4">
+    <div className="p-4 md:pl-0 md:pr-6 md:pt-6">
+      <header className="glass rounded-[2rem] h-20 flex items-center justify-between px-8 transition-all duration-500">
+        <div className="flex items-center md:hidden">
+          <img src={logo} alt="CampusVeda" className="h-10 w-10 object-contain" />
+        </div>
+        <div className="flex flex-1 items-center justify-end space-x-3 md:space-x-4">
         
         {/* Theme Toggle */}
         <button
@@ -136,8 +137,8 @@ export function TopNav() {
             )}
           </AnimatePresence>
         </div>
-
-      </div>
-    </header>
+        </div>
+      </header>
+    </div>
   );
 }

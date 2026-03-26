@@ -8,6 +8,9 @@ import { ConflictAlerts } from '../components/Senior/ConflictAlerts';
 import { ApprovalQueue } from '../components/Senior/ApprovalQueue';
 import { PremiseSetup } from '../components/HOD/PremiseSetup';
 
+import { cn } from '../utils/cn';
+import { Card } from '../components/Card';
+
 export function HODDash() {
   const [activeTab, setActiveTab] = useState('overview');
 
@@ -21,21 +24,28 @@ export function HODDash() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="space-y-8 p-2 pb-10"
+    >
+      <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-6">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-primary dark:text-white transition-colors duration-300">HOD Dashboard</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">High-level overview, resource management, and system rules.</p>
+          <h1 className="text-4xl font-black tracking-tight text-primary dark:text-white mb-2">Command Center</h1>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">Full visibility and control over campus operations.</p>
         </div>
         
-        <div className="flex flex-wrap gap-2 rounded-xl bg-gray-100 dark:bg-gray-800 p-1 transition-colors duration-300">
+        <div className="flex flex-wrap h-fit p-1 glass rounded-2xl">
           {navs.map(nav => (
              <button
               key={nav.id}
               onClick={() => setActiveTab(nav.id)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-all duration-200 ${
-                activeTab === nav.id ? 'bg-white dark:bg-gray-700 text-primary dark:text-white shadow' : 'text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-white'
-              }`}
+              className={cn(
+                "px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300",
+                activeTab === nav.id 
+                  ? "bg-primary text-white shadow-lg shadow-primary/20" 
+                  : "text-gray-500 hover:text-primary dark:text-gray-400 dark:hover:text-white"
+              )}
             >
               {nav.label}
             </button>
@@ -46,29 +56,36 @@ export function HODDash() {
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2 }}
+          initial={{ opacity: 0, scale: 0.98, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.98, y: -10 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="space-y-8"
         >
           {activeTab === 'overview' && (
-            <div className="space-y-6">
+            <>
               <SystemOverview />
-              <ConflictAlerts />
-            </div>
+              <Card className="glass border-white/10">
+                <ConflictAlerts />
+              </Card>
+            </>
           )}
           {activeTab === 'approvals' && (
-            <div className="space-y-6">
-              <ApprovalQueue />
-              <ConflictAlerts />
-            </div>
+            <>
+              <Card className="glass border-white/10 mb-8">
+                <ApprovalQueue />
+              </Card>
+              <Card className="glass border-white/10">
+                <ConflictAlerts />
+              </Card>
+            </>
           )}
           { activeTab === 'resources' && <ResourceManagement />}
           { activeTab === 'premise' && <PremiseSetup />}
           { activeTab === 'audit' && <AuditLog />}
-          {activeTab === 'settings' && <SettingsPanel />}
+          { activeTab === 'settings' && <SettingsPanel />}
         </motion.div>
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
