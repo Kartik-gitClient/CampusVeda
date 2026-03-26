@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -28,10 +29,24 @@ export function RequestForm({ onSuccess }) {
   const [generatedDoc, setGeneratedDoc] = useState(null);
   const [isDocModalOpen, setIsDocModalOpen] = useState(false);
 
+  const location = useLocation();
+  const initialState = location.state || {};
+
   const { register, handleSubmit, reset, formState: { errors }, getValues } = useForm({
     resolver: zodResolver(schema),
-    defaultValues: { type: 'Room', priority: 'Normal' },
+    defaultValues: { 
+      type: initialState.type || 'Room', 
+      resourceName: initialState.resourceName || '',
+      capacity: initialState.capacity?.toString() || '',
+      priority: 'Normal' 
+    },
   });
+
+  React.useEffect(() => {
+    if (initialState.type) {
+      setType(initialState.type);
+    }
+  }, [initialState.type]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: createRequest,

@@ -23,7 +23,7 @@ export function ApprovalQueue() {
     retry: 1,
   });
 
-  const pendingRequests = requests.filter(r => ['submitted', 'checking'].includes(r.status));
+  const pendingRequests = requests.filter(r => ['submitted', 'checking', 'escalated'].includes(r.status));
 
   const { mutate: doApproval, isPending } = useMutation({
     mutationFn: ({ id, action, reason }) => processApproval(id, { action, reason }),
