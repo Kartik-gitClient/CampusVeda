@@ -4,6 +4,7 @@ import { Stats } from '../components/Junior/Stats';
 import { RequestsTable } from '../components/Junior/RequestsTable';
 import { RequestForm } from '../components/Junior/RequestForm';
 import { DepartmentCalendar } from '../components/Junior/DepartmentCalendar';
+import { cn } from '../utils/cn';
 
 import { Card } from '../components/Card';
 

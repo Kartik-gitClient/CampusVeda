@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Outlet, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Sidebar } from './Sidebar';
