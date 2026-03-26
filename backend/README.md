@@ -55,6 +55,19 @@ JWT_EXPIRE=30d
 
 ---
 
+## 🚧 Status & Pending Tasks
+**Completed**:
+- Complete REST APIs for Auth, Requests, Resources, Settings, Notifications, Audit, Conflicts, and Approvals.
+- Integration with MongoDB.
+- Conflict detection algorithmic checks.
+
+**Pending Actions (To-Do)**:
+- Create `services/aiService.js` holding **Llama 3.3 70B** logic.
+- Implement AI prompt handlers for `suggestConflictResolution` and `generateResourceDocument`.
+- Append AI suggestion strings to the `/api/conflicts` return payloads.
+
+---
+
 ## 📡 API Endpoints Reference
 
 ### Auth (`/api/auth`)
@@ -142,16 +155,6 @@ backend/
 ├── utils/           # ErrorResponse class
 ├── .env
 └── server.js        # App entry point
-```
-
----
-
-## 🔐 Authentication
-
-Use the JWT token from the `/api/auth/login` response as a `Bearer` token in all protected requests:
-
-```
-Authorization: Bearer <your_jwt_token>
 ```
 
 ---

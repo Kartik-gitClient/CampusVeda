@@ -1,6 +1,7 @@
 import User from '../models/User.js';
 import ErrorResponse from '../utils/errorResponse.js';
 import jwt from 'jsonwebtoken';
+import { logAction } from './auditService.js';
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -8,39 +9,52 @@ const generateToken = (id) => {
   });
 };
 
-export const registerUser = async (userData) => {
-  const { name, email, password, role, phone, whatsappNumber, department, designation } = userData;
+const formatUser = (user) => ({
+  id: user._id,
+  name: user.name,
+  email: user.email,
+  role: user.role,
+  department: user.department,
+  designation: user.designation,
+});
 
-  const userExists = await User.findOne({ email });
+export const registerUser = async (body) => {
+  const { name, email, password, role, phone, whatsappNumber, department, designation } = body;
+
+  if (!name || !email || !password) {
+    throw new ErrorResponse('Name, email, and password are required', 400);
+  }
+
+  const userExists = await User.findOne({ email: email.toLowerCase() });
   if (userExists) {
-    throw new ErrorResponse('User already exists', 400);
+    throw new ErrorResponse('Email already registered', 400);
   }
 
   const user = await User.create({
     name,
-    email,
+    email: email.toLowerCase(),
     password,
-    role,
+    role: role || 'junior',
     phone,
     whatsappNumber,
     department,
     designation,
   });
 
+  await logAction(user._id, 'register', 'User', user._id, null, formatUser(user));
+
   return {
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      department: user.department,
-    },
+    user: formatUser(user),
     token: generateToken(user._id),
   };
 };
 
 export const loginUser = async (email, password) => {
-  const user = await User.findOne({ email }).select('+password');
+  if (!email || !password) {
+    throw new ErrorResponse('Email and password are required', 400);
+  }
+
+  const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
   if (!user) {
     throw new ErrorResponse('Invalid credentials', 401);
   }
@@ -55,13 +69,7 @@ export const loginUser = async (email, password) => {
   }
 
   return {
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      department: user.department,
-    },
+    user: formatUser(user),
     token: generateToken(user._id),
   };
 };

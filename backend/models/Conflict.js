@@ -38,6 +38,7 @@ const ConflictSchema = new mongoose.Schema({
     ref: 'User',
   },
   resolutionNotes: String,
+  suggestions: [String],
 }, { timestamps: true });
 
 export default mongoose.model('Conflict', ConflictSchema);

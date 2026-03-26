@@ -6,11 +6,10 @@ import { authorize } from '../middleware/roleMiddleware.js';
 const router = express.Router();
 
 router.use(protect);
-router.use(authorize('senior', 'hod'));
-
+// Overview is accessible by all; detailed analytics restricted to senior/hod
 router.get('/overview', getOverview);
-router.get('/requests-trend', getRequestsTrend);
-router.get('/conflicts', getConflictStats);
-router.get('/department-usage', getDepartmentUsage);
+router.get('/requests-trend', authorize('senior', 'hod'), getRequestsTrend);
+router.get('/conflicts', authorize('senior', 'hod'), getConflictStats);
+router.get('/department-usage', authorize('senior', 'hod'), getDepartmentUsage);
 
 export default router;

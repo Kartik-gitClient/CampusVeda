@@ -75,14 +75,33 @@ npm run dev
 
 ## 🔐 Role-Based Access
 
-| Role | Email (Demo) | Dashboard |
+| Role | Dashboard | Capabilities |
 |---|---|---|
-| Junior Faculty | `junior@test.com` | `/junior` – Create requests, track status |
-| Senior Faculty | `senior@test.com` | `/senior` – Approve/reject, conflicts, analytics |
-| HOD / Admin | `hod@test.com` | `/hod` – Full system control, audit, settings |
+| Junior Faculty | `/junior` | Create requests, track status |
+| Senior Faculty | `/senior` | Approve/reject, resolve conflicts, analytics |
+| HOD / Admin | `/hod` | Full system control, audit, settings, resource mgmt |
 
-> **Password:** Any 6+ character string for demo mode.  
-> The login page **automatically tries the real backend first**, and falls back to a local demo session if the backend is offline.
+---
+
+## 🎯 Implementation Status (36-Hour Sprint)
+
+### ✅ Completed Features
+- **User Authentication & Roles**: JWT-based login/signup with role-based dashboard redirection.
+- **Resource Management**: Core CRUD for facilities and equipment (HOD Dashboard).
+- **Request Management**: Junior faculty request submission, status tracking.
+- **Conflict Detection**: Backend interceptors for double-booking and capacity overloads.
+- **Approval Workflow**: Senior faculty escalation queues with automated availability syncing.
+- **Audit Trails & Notifications**: System-wide logging of all approval status changes.
+
+### 🚧 Pending/Left to Do
+1. **AI Integration (Llama 3.3)**: 
+   - Backend `aiService.js` missing. 
+   - Need to implement UI for AI conflict resolution suggestions and automated Resource Document generation.
+2. **Export Functionality**: PDF generation and Email dispatch for AI-generated resource documents.
+3. **Dedicated Views**:
+   - `Department Calendar` view for Junior Dashboard.
+   - Dedicated Public-facing `/rooms` view showing current availability and next free times.
+4. **Final Integration Polish**: Link all frontend React Query hooks rigorously to the live MongoDB backend routes.
 
 ---
 
@@ -102,19 +121,6 @@ npm run dev
 | Settings | `/api/settings` | HOD only |
 
 Full API docs: [`backend/README.md`](./backend/README.md)
-
----
-
-## 🎯 Key Features
-
-- ✅ Role-based dashboards (Junior → Senior → HOD escalation chain)
-- ✅ Full request lifecycle: `draft → submitted → checking → approved/rejected → escalated → resolved`
-- ✅ Intelligent conflict detection (double-booking, overlapping resources)
-- ✅ Approval workflow with mandatory rejection reasons
-- ✅ System-wide Audit Trail (immutable logs)
-- ✅ MongoDB aggregation-powered analytics
-- ✅ JWT authentication with secure localStorage hydration
-- ✅ Black & White minimalistic SaaS design system
 
 ---
 

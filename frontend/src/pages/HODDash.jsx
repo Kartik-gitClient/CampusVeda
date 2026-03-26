@@ -5,13 +5,17 @@ import { ResourceManagement } from '../components/HOD/ResourceManagement';
 import { SettingsPanel } from '../components/HOD/SettingsPanel';
 import { AuditLog } from '../components/HOD/AuditLog';
 import { ConflictAlerts } from '../components/Senior/ConflictAlerts';
+import { ApprovalQueue } from '../components/Senior/ApprovalQueue';
+import { PremiseSetup } from '../components/HOD/PremiseSetup';
 
 export function HODDash() {
   const [activeTab, setActiveTab] = useState('overview');
 
   const navs = [
     { id: 'overview', label: 'System Overview' },
+    { id: 'approvals', label: 'Approvals' },
     { id: 'resources', label: 'Resources' },
+    { id: 'premise', label: 'Premise Setup' },
     { id: 'audit', label: 'Audit Log' },
     { id: 'settings', label: 'Settings' },
   ];
@@ -39,8 +43,6 @@ export function HODDash() {
         </div>
       </div>
 
-      <ConflictAlerts />
-
       <AnimatePresence mode="wait">
         <motion.div
           key={activeTab}
@@ -49,9 +51,21 @@ export function HODDash() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
         >
-          {activeTab === 'overview' && <SystemOverview />}
-          {activeTab === 'resources' && <ResourceManagement />}
-          {activeTab === 'audit' && <AuditLog />}
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              <SystemOverview />
+              <ConflictAlerts />
+            </div>
+          )}
+          {activeTab === 'approvals' && (
+            <div className="space-y-6">
+              <ApprovalQueue />
+              <ConflictAlerts />
+            </div>
+          )}
+          { activeTab === 'resources' && <ResourceManagement />}
+          { activeTab === 'premise' && <PremiseSetup />}
+          { activeTab === 'audit' && <AuditLog />}
           {activeTab === 'settings' && <SettingsPanel />}
         </motion.div>
       </AnimatePresence>

@@ -1,57 +1,63 @@
-# PRITHVEDA – Smart Campus Operation Platform (Frontend MVP)
-
-> **Note:** This repository currently contains the **Frontend** application tailored specifically for the Hackathon inspection. The Backend integration instructions will be added in subsequent phases.
+# PRITHVEDA – Smart Campus Operation Platform (Frontend)
 
 PRITHVEDA is a modern, production-ready SaaS application designed to streamline and automate campus operations. It provides a robust role-based system for resource requests, conflict detection, and high-level analytics for campus administration. 
 
 ## 🌟 Key Features
 
-The frontend is split into three distinct, secure role-based dashboards:
+The frontend is split into three distinct, secure role-based dashboards connected to the Node.js/MongoDB backend:
 
 ### 1. Junior Faculty Dashboard
 - **Resource Requests:** Create new requests for Rooms, Equipment, or Staff using a strictly validated form (React Hook Form + Zod).
-- **Request Tracking:** Monitor the status of pending, approved, or rejected requests in real-time via a responsive data table.
+- **Request Tracking:** Monitor the status of pending, approved, or rejected requests in real-time.
 - **Overview Analytics:** Quick glance statistics on the total request lifecycle.
 
 ### 2. Senior Faculty Dashboard
-- **Approval Queue:** A streamlined table interface to review, conditionally approve, or reject incoming junior faculty requests (with mandatory reasoning for rejections).
-- **Conflict Management:** Automated AI-driven conflict highlighting (e.g., Double Bookings, Capacity limits exceeded) with severity levels.
-- **Traffic Analytics:** Interactive Line Charts plotting the volume of campus operations requests over the week.
+- **Approval Queue:** A streamlined table interface to review, conditionally approve, or reject incoming junior faculty requests.
+- **Conflict Management:** Automated AI-driven conflict highlighting (e.g., Double Bookings, Capacity limits exceeded).
+- **Traffic Analytics:** Interactive Line Charts plotting the volume of campus operations requests.
 
 ### 3. HOD (Head of Department) Dashboard
-- **System Overview:** High-level metrics with Pie and Bar charts visualizing resource distribution and inter-departmental loads.
-- **Resource Registry:** A comprehensive table to manage, add, and monitor the health and status of all facility resources.
-- **Settings & Automation:** Toggle capabilities for WhatsApp alerts, Auto-Document generation, and Emergency protocol editing.
+- **System Overview:** High-level metrics visualizing resource distribution and inter-departmental loads.
+- **Resource Registry:** Manage, add, and monitor the health and status of all facility resources.
+- **Settings & Automation:** Toggle capabilities for alerts, auto-documentation, and emergency protocols.
 - **Audit Log:** Complete activity logging for system-wide transparency and tracking.
+
+---
+
+## 🚧 Status & Pending Tasks
+**Completed**:
+- Complete Layouts and Dashboards structure.
+- Redux session state and JWT hydration.
+- Form components for submission and HOD tables.
+
+**Pending Actions (To-Do)**:
+- **AI Integration UI**: Add `[Generate Document]` button in Junior Request form. Add `AI Suggestion` indicators in Senior Conflict Modals.
+- **PDF/Email Export**: Add buttons to convert AI generated documents to PDF and email them.
+- **Calendar View**: Build a full `Department Calendar` view inside the Junior Dashboard.
+- **Standalone Rooms View**: Create a public `/rooms` route displaying a visual card registry of all availability statuses independent of dashboards.
 
 ---
 
 ## 🧠 Tech Stack
 
-We have chosen a highly scalable, modern ecosystem built around a strict, minimalistic **Black & White** design aesthetic (merging the reliability of a Government Portal with the modern feel of a SaaS):
+We have chosen a highly scalable, modern ecosystem built around a strict, minimalistic **Black & White** design aesthetic:
 
 - **Core:** React 18 (Vite) + JavaScript
 - **Routing:** React Router v6 (Protected nested routes & Role-based redirection)
-- **Styling:** Tailwind CSS v3 (Strict B&W theme, `rounded-2xl` cards, soft shadows)
+- **Styling:** Tailwind CSS v3 (Strict B&W theme)
 - **State Management:** Redux Toolkit (Secure Session and User State)
 - **Server State & Caching:** React Query (@tanstack/react-query)
 - **API Communication:** Axios (with automated JWT interceptors)
-- **Form Handling:** React Hook Form + Zod (Strict schema validation for inputs)
-- **Animations:** Framer Motion (Page transitions, modal pop-ups, tap micro-interactions)
-- **Data Visualization:** Recharts (Responsive Line, Bar, and Pie charts)
+- **Form Handling:** React Hook Form + Zod
+- **Animations:** Framer Motion
+- **Data Visualization:** Recharts
 - **Icons & Alerts:** Lucide React & React Hot Toast
 
 ---
 
-## 🚀 How to Run Locally (Hackathon Evaluators)
+## 🚀 How to Run Locally
 
-Follow these instructions to run the frontend application locally:
-
-### Prerequisites
-- [Node.js](https://nodejs.org/en/) (v16.x or v18+ recommended)
-- npm (Node Package Manager)
-
-### Installation & Setup
+### Setup
 
 1. **Navigate to the frontend directory:**
    ```bash
@@ -63,27 +69,13 @@ Follow these instructions to run the frontend application locally:
    npm install
    ```
 
-3. **Start the Development Server:**
+3. **Configure Environment:**
+   Copy `.env.example` to `.env` pointing to the backend API.
+
+4. **Start the Development Server:**
    ```bash
    npm run dev
    ```
-
-4. **Access the Application:**
-   Open your browser and navigate to the URL provided in the terminal (usually `http://localhost:5173` or `http://localhost:5174`).
-
----
-
-## 🔐 Testing the Application (Mock Credentials)
-
-Since the backend is mocked for this frontend-specific MVP demonstration, you can seamlessly test the three distinct dashboards by entering specific email addresses on the Login Page. 
-
-> **Password Requirement:** Use any password with **at least 6 characters**.
-
-| Role | Test Email | Redirection |
-| :--- | :--- | :--- |
-| **Junior Faculty** | `junior@test.com` | `/junior` |
-| **Senior Faculty** | `senior@test.com` | `/senior` |
-| **HOD / Admin** | `hod@test.com` | `/hod` |
 
 ---
 
@@ -98,9 +90,9 @@ frontend/
 │   │   └── HOD/         # HOD Dashboard specific feature widgets
 │   ├── layouts/         # Base frames (Sidebar, TopNav, MainLayout)
 │   ├── pages/           # High-level route views (Login, JuniorDash, SeniorDash, HODDash)
-│   ├── services/        # Axios interceptors and Mock API logic
+│   ├── services/        # Axios API fetchers mapping to Backend
 │   ├── store/           # Redux Toolkit setup (store.js, authSlice.js)
-│   ├── utils/           # Helper functions (Tailwind class merging via `cn`)
+│   ├── utils/           # Helper functions
 │   ├── App.jsx          # Protected routing logic and App root
 │   └── main.jsx         # Redux, React-Query, and React DOM Root bindings
 ├── index.html

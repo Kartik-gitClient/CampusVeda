@@ -9,6 +9,7 @@ import { SeniorDash } from './pages/SeniorDash';
 import { HODDash } from './pages/HODDash';
 import { RoomsView } from './pages/RoomsView';
 import { NewRequestView } from './pages/NewRequestView';
+import { PremiseDashboard } from './pages/PremiseDashboard';
 
 // Map backend role → dashboard path
 const ROLE_PATHS = {
@@ -91,6 +92,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <NewRequestView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/building-map"
+              element={
+                <ProtectedRoute>
+                  <PremiseDashboard />
                 </ProtectedRoute>
               }
             />

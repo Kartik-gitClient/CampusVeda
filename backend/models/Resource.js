@@ -22,6 +22,11 @@ const ResourceSchema = new mongoose.Schema({
     enum: ['Available', 'In Use', 'Maintenance', 'Unavailable'],
     default: 'Available',
   },
+  subType: {
+    type: String,
+    enum: ['Classroom', 'Seminar Hall', 'Staff Room', 'Misc', 'None'],
+    default: 'None',
+  },
   isActive: {
     type: Boolean,
     default: true,

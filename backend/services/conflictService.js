@@ -1,6 +1,7 @@
 import Conflict from '../models/Conflict.js';
 import Request from '../models/Request.js';
 import ErrorResponse from '../utils/errorResponse.js';
+import { suggestConflictResolution } from './aiService.js';
 
 export const detectConflicts = async (requestId) => {
   const request = await Request.findById(requestId);
@@ -18,6 +19,14 @@ export const detectConflicts = async (requestId) => {
   });
 
   if (overlaps.length > 0) {
+    const conflictDetails = {
+      type: 'DoubleBooking',
+      resource: request.resourceName,
+      dates: `${request.startDate} to ${request.endDate}`
+    };
+    
+    const suggestion = await suggestConflictResolution(conflictDetails);
+
     const conflict = await Conflict.create({
       request: requestId,
       type: 'DoubleBooking',
@@ -25,6 +34,7 @@ export const detectConflicts = async (requestId) => {
       description: `Resource ${request.resourceName} is already booked during this time period.`,
       conflictingIds: overlaps.map(o => o._id),
       conflictingModel: 'Request',
+      suggestions: suggestion ? [suggestion] : [],
     });
     conflicts.push(conflict);
   }

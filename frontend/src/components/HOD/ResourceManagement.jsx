@@ -19,7 +19,7 @@ export function ResourceManagement() {
 
   const { data: resources = [], isLoading } = useQuery({
     queryKey: ['resources'],
-    queryFn: getResources,
+    queryFn: () => getResources(),
     retry: 1,
   });
 

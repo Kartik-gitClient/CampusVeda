@@ -18,17 +18,20 @@ const getNavItems = (role) => {
     case 'junior':
       return [
         { name: 'Dashboard', path: '/junior', icon: LayoutDashboard },
+        { name: 'Building Map', path: '/building-map', icon: Building2 },
         { name: 'My Requests', path: '/junior/requests', icon: FileText },
       ];
     case 'senior':
       return [
         { name: 'Dashboard', path: '/senior', icon: LayoutDashboard },
+        { name: 'Building Map', path: '/building-map', icon: Building2 },
         { name: 'Approval Queue', path: '/senior/queue', icon: ClipboardList },
         { name: 'Conflicts', path: '/senior/conflicts', icon: AlertTriangle },
       ];
     case 'hod':
       return [
         { name: 'Dashboard', path: '/hod', icon: LayoutDashboard },
+        { name: 'Building Map', path: '/building-map', icon: Building2 },
         { name: 'Escalations', path: '/hod/escalations', icon: AlertTriangle },
         { name: 'Resources', path: '/hod/resources', icon: Building2 },
         { name: 'Audit Log', path: '/hod/audit', icon: Users },

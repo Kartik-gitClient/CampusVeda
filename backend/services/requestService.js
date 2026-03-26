@@ -1,5 +1,6 @@
 import Request from '../models/Request.js';
 import ErrorResponse from '../utils/errorResponse.js';
+import { logAction } from './auditService.js';
 
 export const createRequest = async (requestData, userId) => {
   const request = await Request.create({
@@ -7,6 +8,9 @@ export const createRequest = async (requestData, userId) => {
     requester: userId,
     history: [{ status: 'submitted', actor: userId, reason: 'Created request' }],
   });
+
+  await logAction(userId, 'create', 'Request', request._id, null, request);
+  
   return request;
 };
 
@@ -14,14 +18,16 @@ export const getRequests = async (user) => {
   let query = {};
   // Role-based filtering
   if (user.role === 'junior') {
-    query.requester = user._id; // see own requests
+    query.requester = user._id; // see own requests only
   } else if (user.role === 'senior') {
-    // Senior can see submitted or checking requests to approve
-    query.status = { $in: ['submitted', 'checking', 'escalated', 'approved', 'rejected'] };
+    // Senior sees all non-draft requests across all users
+    query.status = { $ne: 'draft' };
   }
-  // HOD sees everything 
-  
-  const requests = await Request.find(query).populate('requester', 'name email department');
+  // HOD sees everything (query stays empty)
+
+  const requests = await Request.find(query)
+    .populate('requester', 'name email department designation')
+    .sort({ createdAt: -1 });
   return requests;
 };
 
@@ -74,5 +80,6 @@ export const escalateRequest = async (id, user) => {
   });
 
   await request.save();
+  await logAction(user._id, 'escalate', 'Request', request._id, null, request);
   return request;
 };

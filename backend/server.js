@@ -15,6 +15,7 @@ import notificationRoutes from './routes/notificationRoutes.js';
 import auditRoutes from './routes/auditRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
+import premiseRoutes from './routes/premiseRoutes.js';
 
 // Config & DB
 import connectDB from './config/db.js';
@@ -50,6 +51,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/auditlogs', auditRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/premise', premiseRoutes);
 
 // ─── Global Error Handler ────────────────────────────────────────
 app.use((err, req, res, next) => {

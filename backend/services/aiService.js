@@ -20,7 +20,7 @@ const generateChatCompletion = async (prompt, systemMessage) => {
           { role: 'system', content: systemMessage },
           { role: 'user', content: prompt }
         ],
-        max_tokens: 300,
+        max_tokens: 500,
         temperature: 0.7,
       },
       {
@@ -54,15 +54,64 @@ export const generateResourceDocument = async (requestData) => {
   
   if (aiResponse) return aiResponse;
 
-  return `
-RESOURCE REQUEST DOCUMENT
--------------------------
-Date: ${new Date().toLocaleDateString()}
-Resource: ${requestData.resourceName || 'Specified Resource'}
-Purpose: ${requestData.purpose || 'Academic/Operational Purpose'}
-Duration: ${requestData.startDate} (${requestData.startTime} - ${requestData.endTime})
+  // Fallback: fill template with actual faculty/request data
+  const startDate = requestData.startDate ? new Date(requestData.startDate) : null;
+  const endDate = requestData.endDate ? new Date(requestData.endDate) : null;
+  const startTime = startDate ? startDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+  const endTime = endDate ? endDate.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' }) : 'N/A';
+  const startDateStr = startDate ? startDate.toLocaleDateString('en-IN') : 'N/A';
+  const duration = (startDate && endDate) ? `${Math.round((endDate - startDate) / (1000 * 60 * 60))} hour(s)` : 'N/A';
 
-This document serves as a formal application for the utilization of the aforementioned campus resources.
+  return `
+RESOURCE REQUEST FORM
+--------------------------------------------
+
+Date: ${new Date().toLocaleDateString('en-IN')}
+
+Applicant Details
+--------------------------------------------
+Name: ${requestData.userName || 'N/A'}
+Department/Class: ${requestData.userDepartment || 'N/A'}
+Contact Information: ${requestData.userEmail || 'N/A'}
+
+Request Details
+--------------------------------------------
+Resource Requested: ${requestData.resourceName || 'Specified Resource'}
+
+Purpose of Request:
+${requestData.purpose || 'Academic / Operational Purpose'}
+
+Requested Schedule:
+Start Date: ${startDateStr}
+Time: ${startTime} to ${endTime}
+
+Duration: ${duration}
+
+Priority: ${requestData.priority || 'Normal'}
+
+Additional Requirements: ${requestData.notes || 'None'}
+
+Declaration
+--------------------------------------------
+I hereby declare that the requested resource will be used responsibly
+and strictly for the purpose mentioned above. I agree to comply with
+all institutional rules and guidelines.
+
+Signature of Applicant: ${requestData.userName || '_______________'}
+
+Approval Section (For Office Use Only)
+--------------------------------------------
+Status: [ ] Approved   [ ] Rejected
+
+Remarks:
+_____________________________________
+
+Authorized Signature: _______________
+Date: _______________________________
+
+--------------------------------------------
+This document serves as an official request for the usage of
+institutional resources.
   `.trim();
 };
 
