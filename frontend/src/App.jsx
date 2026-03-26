@@ -3,9 +3,12 @@ import { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { MainLayout } from './layouts/MainLayout';
 import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 import { JuniorDash } from './pages/JuniorDash';
 import { SeniorDash } from './pages/SeniorDash';
 import { HODDash } from './pages/HODDash';
+import { RoomsView } from './pages/RoomsView';
+import { NewRequestView } from './pages/NewRequestView';
 
 // Map backend role → dashboard path
 const ROLE_PATHS = {
@@ -39,10 +42,14 @@ function App() {
     <>
       <Router>
         <Routes>
-          {/* Public Route */}
+          {/* Public Routes */}
           <Route
             path="/login"
             element={isAuthenticated && user?.role ? <Navigate to={dashPath} replace /> : <Login />}
+          />
+          <Route
+            path="/register"
+            element={isAuthenticated && user?.role ? <Navigate to={dashPath} replace /> : <Register />}
           />
 
           {/* Protected Routes nested under MainLayout */}
@@ -68,6 +75,22 @@ function App() {
               element={
                 <ProtectedRoute allowedRoles={['hod']}>
                   <HODDash />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/rooms"
+              element={
+                <ProtectedRoute>
+                  <RoomsView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/requests/new"
+              element={
+                <ProtectedRoute>
+                  <NewRequestView />
                 </ProtectedRoute>
               }
             />

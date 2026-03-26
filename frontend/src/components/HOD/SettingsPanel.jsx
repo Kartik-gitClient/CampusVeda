@@ -1,88 +1,78 @@
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../Card';
+import React from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getSettings, updateSettings } from '../../services/settingsApi';
+import { useForm } from 'react-hook-form';
 import { Button } from '../Button';
 import toast from 'react-hot-toast';
+import { Settings as SettingsIcon } from 'lucide-react';
 
 export function SettingsPanel() {
-  const [settings, setSettings] = useState({
-    whatsappAlerts: true,
-    autoDocumentGen: false,
-    autoApproveMinor: false,
+  const queryClient = useQueryClient();
+
+  const { data: settings, isLoading } = useQuery({
+    queryKey: ['settings'],
+    queryFn: getSettings,
+    retry: 1,
   });
 
-  const toggleSetting = (key) => setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  const { register, handleSubmit, reset } = useForm();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    toast.success('System settings saved.');
-  };
+  React.useEffect(() => {
+    if (settings) reset(settings);
+  }, [settings, reset]);
+
+  const { mutate: save, isPending } = useMutation({
+    mutationFn: updateSettings,
+    onSuccess: () => {
+      toast.success('Settings saved successfully.');
+      queryClient.invalidateQueries({ queryKey: ['settings'] });
+    },
+    onError: () => toast.error('Failed to save settings.'),
+  });
+
+  if (isLoading) return (
+    <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-6 space-y-4">
+      {[...Array(4)].map((_, i) => <div key={i} className="h-10 bg-gray-100 rounded-xl animate-pulse" />)}
+    </div>
+  );
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>System Settings</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase">Automation & Alerts</h3>
-            
-            <div className="flex items-center justify-between">
+    <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-6">
+      <div className="flex items-center gap-2 mb-6">
+        <SettingsIcon className="h-5 w-5 text-primary" />
+        <h2 className="text-xl font-bold text-primary">System Settings</h2>
+      </div>
+
+      <form onSubmit={handleSubmit(save)} className="space-y-6">
+        <div className="space-y-4">
+          {[
+            { name: 'whatsappAlerts', label: 'WhatsApp Notifications', desc: 'Send alerts via WhatsApp to faculty members' },
+            { name: 'autoDocumentGen', label: 'Auto Document Generation', desc: 'Automatically generate approval letters' },
+            { name: 'autoApproveMinor', label: 'Auto-Approve Minor Requests', desc: 'Approve low-priority requests automatically' },
+          ].map(({ name, label, desc }) => (
+            <label key={name} className="flex items-start justify-between gap-4 p-4 rounded-xl border border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors">
               <div>
-                <p className="font-medium text-primary">WhatsApp Alerts</p>
-                <p className="text-sm text-gray-500">Send emergency notifications via WhatsApp</p>
+                <p className="text-sm font-medium text-primary">{label}</p>
+                <p className="text-xs text-gray-500">{desc}</p>
               </div>
-              <button
-                type="button"
-                onClick={() => toggleSetting('whatsappAlerts')}
-                className={`w-11 h-6 rounded-full transition-colors relative ${settings.whatsappAlerts ? 'bg-black' : 'bg-gray-200'}`}
-              >
-                <span className={`block w-4 h-4 rounded-full bg-white absolute top-1 transition-transform ${settings.whatsappAlerts ? 'translate-x-6' : 'translate-x-1'}`} />
-              </button>
-            </div>
+              <input type="checkbox" {...register(name)} className="h-4 w-4 rounded accent-black mt-0.5 flex-shrink-0" />
+            </label>
+          ))}
+        </div>
 
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium text-primary">Auto Document Generation</p>
-                <p className="text-sm text-gray-500">Generate PDF receipts for approved requests</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => toggleSetting('autoDocumentGen')}
-                className={`w-11 h-6 rounded-full transition-colors relative ${settings.autoDocumentGen ? 'bg-black' : 'bg-gray-200'}`}
-              >
-                <span className={`block w-4 h-4 rounded-full bg-white absolute top-1 transition-transform ${settings.autoDocumentGen ? 'translate-x-6' : 'translate-x-1'}`} />
-              </button>
-            </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Emergency Criteria Rule</label>
+          <textarea
+            {...register('emergencyCriteria')}
+            rows={3}
+            className="w-full rounded-xl border border-gray-300 px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+          />
+        </div>
 
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium text-primary">Auto-Approve Minor</p>
-                <p className="text-sm text-gray-500">Automatically approve equipment requests under capacity</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => toggleSetting('autoApproveMinor')}
-                className={`w-11 h-6 rounded-full transition-colors relative ${settings.autoApproveMinor ? 'bg-black' : 'bg-gray-200'}`}
-              >
-                <span className={`block w-4 h-4 rounded-full bg-white absolute top-1 transition-transform ${settings.autoApproveMinor ? 'translate-x-6' : 'translate-x-1'}`} />
-              </button>
-            </div>
-          </div>
-
-          <div className="pt-4 border-t border-gray-100">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase mb-4">Emergency Criteria Rules</h3>
-            <textarea 
-              className="w-full h-24 rounded-2xl border border-gray-300 p-3 text-sm focus:ring-2 focus:ring-primary focus:outline-none resize-y"
-              defaultValue="IF type == 'Room' AND requester == 'Senior Faculty' THEN flag = 'Emergency'"
-            />
-          </div>
-
-          <div className="flex justify-end pt-4 border-t border-gray-100">
-            <Button type="submit">Save Changes</Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+        <div className="flex justify-end">
+          <Button type="submit" isLoading={isPending}>Save Settings</Button>
+        </div>
+      </form>
+    </div>
   );
 }

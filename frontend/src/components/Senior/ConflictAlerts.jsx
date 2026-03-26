@@ -1,35 +1,85 @@
 import React from 'react';
-import { AlertTriangle, ChevronRight } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { getConflicts, resolveConflict } from '../../services/conflictApi';
+import { Badge } from '../Badge';
+import { Button } from '../Button';
+import { AlertTriangle, CheckCircle } from 'lucide-react';
+import toast from 'react-hot-toast';
 
-const mockConflicts = [
-  { id: 'CONF-01', type: 'Double Booking', resource: 'Auditorium', severity: 'High', description: 'Two emergency requests overlapping.' },
-  { id: 'CONF-02', type: 'Capacity Exceeded', resource: 'Lab 3', severity: 'Medium', description: 'Requested capacity (45) exceeds limit (30).' },
-];
+const SEVERITY_VARIANT = { major: 'danger', normal: 'warning', minor: 'default' };
 
 export function ConflictAlerts() {
-  if (mockConflicts.length === 0) return null;
+  const queryClient = useQueryClient();
+
+  const { data: conflicts = [], isLoading } = useQuery({
+    queryKey: ['conflicts'],
+    queryFn: getConflicts,
+    retry: 1,
+  });
+
+  const { mutate: resolve, isPending } = useMutation({
+    mutationFn: (id) => resolveConflict(id, { resolution: 'Manually resolved by senior' }),
+    onSuccess: () => {
+      toast.success('Conflict resolved.');
+      queryClient.invalidateQueries({ queryKey: ['conflicts'] });
+      queryClient.invalidateQueries({ queryKey: ['analytics-overview'] });
+    },
+    onError: () => toast.error('Failed to resolve conflict.'),
+  });
+
+  if (isLoading) return (
+    <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-6 space-y-3">
+      {[...Array(2)].map((_, i) => <div key={i} className="h-16 bg-gray-100 rounded-xl animate-pulse" />)}
+    </div>
+  );
 
   return (
-    <div className="mb-6 space-y-3">
-      {mockConflicts.map(conflict => (
-        <div key={conflict.id} className="flex items-center justify-between p-4 bg-white border-l-4 border-red-500 rounded-r-2xl shadow-soft border-y border-r border-y-gray-100 border-r-gray-100">
-          <div className="flex flex-col">
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="w-5 h-5 text-red-500" />
-              <h4 className="font-semibold text-primary">{conflict.type}: {conflict.resource}</h4>
-              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${
-                conflict.severity === 'High' ? 'bg-red-100 text-red-800' : 'bg-orange-100 text-orange-800'
-              }`}>
-                {conflict.severity}
-              </span>
-            </div>
-            <p className="mt-1 text-sm text-gray-500 ml-7">{conflict.description}</p>
-          </div>
-          <button className="flex items-center text-sm font-medium text-gray-600 hover:text-primary transition-colors">
-            Resolve <ChevronRight className="w-4 h-4 ml-1" />
-          </button>
+    <div className="bg-white rounded-2xl shadow-soft border border-gray-100 p-6">
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-xl font-bold text-primary">Active Conflicts</h2>
+        <Badge variant={conflicts.length ? 'danger' : 'success'}>
+          {conflicts.length} active
+        </Badge>
+      </div>
+
+      {!conflicts.length ? (
+        <div className="flex items-center text-green-600 py-4 gap-2">
+          <CheckCircle className="h-5 w-5" />
+          <span className="text-sm font-medium">No active conflicts. All clear!</span>
         </div>
-      ))}
+      ) : (
+        <div className="space-y-3">
+          {conflicts.map(conflict => (
+            <div key={conflict._id} className="flex items-start justify-between p-4 rounded-xl border border-gray-100 bg-gray-50 gap-4">
+              <div className="flex items-start gap-3 flex-1">
+                <AlertTriangle className={`h-5 w-5 flex-shrink-0 mt-0.5 ${conflict.severity === 'major' ? 'text-red-500' : 'text-yellow-500'}`} />
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm font-semibold text-primary">{conflict.type}</span>
+                    <Badge variant={SEVERITY_VARIANT[conflict.severity]}>{conflict.severity}</Badge>
+                  </div>
+                  <p className="text-sm text-gray-600">{conflict.description}</p>
+                  {conflict.suggestions && conflict.suggestions.length > 0 && (
+                    <div className="mt-3 text-sm bg-blue-50 text-blue-800 p-2.5 rounded-lg flex items-start gap-2 border border-blue-100 shadow-sm">
+                      <span className="font-bold whitespace-nowrap">✨ AI Suggestion:</span>
+                      <span>{conflict.suggestions[0]}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={() => resolve(conflict._id)}
+                isLoading={isPending}
+                className="whitespace-nowrap"
+              >
+                Resolve
+              </Button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

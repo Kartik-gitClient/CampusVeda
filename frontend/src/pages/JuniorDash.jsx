@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Stats } from '../components/Junior/Stats';
 import { RequestsTable } from '../components/Junior/RequestsTable';
 import { RequestForm } from '../components/Junior/RequestForm';
+import { DepartmentCalendar } from '../components/Junior/DepartmentCalendar';
 
 export function JuniorDash() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -25,6 +26,14 @@ export function JuniorDash() {
             Overview
           </button>
           <button
+            onClick={() => setActiveTab('calendar')}
+            className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === 'calendar' ? 'bg-white text-primary shadow' : 'text-gray-600 hover:text-primary'
+            }`}
+          >
+            Calendar
+          </button>
+          <button
             onClick={() => setActiveTab('new')}
             className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === 'new' ? 'bg-white text-primary shadow' : 'text-gray-600 hover:text-primary'
@@ -43,7 +52,7 @@ export function JuniorDash() {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2 }}
         >
-          {activeTab === 'overview' ? (
+          {activeTab === 'overview' && (
             <div className="space-y-6">
               <Stats />
               <div className="bg-white rounded-2xl shadow-soft p-6 border border-gray-100">
@@ -51,7 +60,15 @@ export function JuniorDash() {
                 <RequestsTable />
               </div>
             </div>
-          ) : (
+          )}
+          
+          {activeTab === 'calendar' && (
+            <div className="max-w-6xl mx-auto">
+              <DepartmentCalendar />
+            </div>
+          )}
+
+          {activeTab === 'new' && (
             <div className="bg-white rounded-2xl shadow-soft p-6 border border-gray-100 max-w-3xl mx-auto">
               <h3 className="text-lg font-semibold mb-6 text-primary">Create New Resource Request</h3>
               <RequestForm onSuccess={() => setActiveTab('overview')} />
