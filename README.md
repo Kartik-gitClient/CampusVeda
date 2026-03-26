@@ -28,7 +28,7 @@ npm install
 # Configure environment variables (MONGO_URI, JWT_SECRET, GROQ_API_KEY)
 cp .env.example .env 
 npm run dev
-# → http://localhost:5000
+# → https://campusveda.onrender.com/api
 ```
 
 ### 2. Start Frontend

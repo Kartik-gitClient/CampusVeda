@@ -39,7 +39,7 @@ npm install
 npm run dev
 ```
 
-The server starts on **`http://localhost:5000`**.
+The server starts on **`https://campusveda.onrender.com/api`**
 
 ### Configuration (`.env`)
 
