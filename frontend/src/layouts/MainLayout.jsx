@@ -3,6 +3,7 @@ import { Outlet, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Sidebar } from './Sidebar';
 import { TopNav } from './TopNav';
+import { ChatBot } from '../components/AI/ChatBot';
 
 export function MainLayout() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -20,6 +21,7 @@ export function MainLayout() {
           <Outlet />
         </main>
       </div>
+      <ChatBot />
     </div>
   );
 }

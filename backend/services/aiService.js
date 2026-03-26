@@ -3,7 +3,7 @@ import axios from 'axios';
 // Llama 3.3 70B Integration via Groq or generic OpenAI-compatible endpoint.
 // For hackathon purposes, falls back to intelligent mocks if API key is missing.
 
-const generateChatCompletion = async (prompt, systemMessage) => {
+export const generateChatCompletion = async (prompt, systemMessage) => {
   const apiKey = process.env.GROQ_API_KEY || process.env.LLAMA_API_KEY;
   
   if (!apiKey) {
