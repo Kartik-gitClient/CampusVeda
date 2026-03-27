@@ -77,9 +77,9 @@ npm run dev
 
 ---
 
-##*NOTE* 
+##NOTE
 - **TO TEST THE PLATFORM JUST SIGN UP WITH MOCK EMAILS FOR ALL THE ROLES (JUNIOR , SENIOR , HOD)**
 - **EXAMPLE EMAILS TO SIGNUP :- junior@test.com , senior@test.com , hod@test.com**
-- **HAPPY TESTING !! ** 
+- **HAPPY TESTING !!** 
 
 *Built for the PRITHVEDA Smart Campus Hackathon — 2026. Updated with premium AI and Mapping features.*
